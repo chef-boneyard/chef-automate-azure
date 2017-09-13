@@ -1,0 +1,24 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmName": {
+            "value": "GEN-UNIQUE"
+        },
+        "vmSSName": { 
+            "value": "GEN-UNIQUE"
+        },
+        "instanceCount": {
+            "value": "GEN-UNIQUE"
+        },
+        "adminUsername": {
+            "value": "GEN-UNIQUE"
+        },
+        "adminPassword": {
+            "value": "GEN-UNIQUE"
+        },
+        "resourcePrefix": {
+            "value": "GEN-UNIQUE"
+        }
+    }
+}
