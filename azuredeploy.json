@@ -13,81 +13,77 @@
         "deploymentApiVersion": "2015-01-01",
         "location": "[resourceGroup().location]",
         "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
-        "scalesetURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.json')]",
-        "vmmssURL": "[concat(variables('baseUrl'),'nestedTemplates/vmmss.json')]",
-        "scriptUrl": "[concat(variables('baseUrl'),'nestedTemplates/vm-disk-utils-centos-0.1.sh')]"
+        "runnerURL": "[concat(variables('baseUrl'),'nestedTemplates/runner.json')]",
+        "standaloneURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_standalone.json')]",
+        "automateURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_automate.json')]"
     },
     "resources": [
-       // {
-       //     "name": "scalesetResource",
-      //      "type": "Microsoft.Resources/deployments",
-      //      "apiVersion": "[variables('deploymentApiVersion')]",
-      //      "properties": {
-      //          "mode": "Incremental",
-      //          "templateLink": {
-      //              "uri": "[variables('scalesetURL')]",
-      //              "contentVersion": "1.0.0.0"
-      //          },
-      //      "parameters": { 
-      //          "vmName":  {"value" : "uniquestring([parameters('vmName'))]"},
-      //          "vmSSName": {"value" : "uniquestring([parameters('vmSSName')]"},
-      //          "instanceCount": {"value" : "[parameters('instanceCount')]"},
-      //          "adminUsername": {"value" : "[parameters('adminUsername')]"},
-      //          "adminPassword": {"value" : "[parameters('adminPassword')]"},
-      //          "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"} 
-      //          }
-      //      }    
-      //  },
-      //  {
-      //      "name": "StandAloneResource",
-      //      "type": "Microsoft.Resources/deployments",
-      //      "apiVersion": "[variables('deploymentApiVersion')]",
-      //      "properties": {
-      //          "mode": "Incremental",
-      //          "templateLink": {
-      //              "uri": "[variables('vmmssURL')]",
-      //              "contentVersion": "1.0.0.0"
-      //          },
-      //      "parameters": { 
-      //          "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
-      //          "adminUsername": {"value" : "[parameters('adminUsername')]"},
-      //          "adminPassword": {"value" : "[parameters('adminPassword')]"}
-      //          }
-      //      }    
-      //  },
-      //  {
-      //      "name": "ChefAutomateResource",
-      //      "type": "Microsoft.Resources/deployments",
-     //       "apiVersion": "[variables('deploymentApiVersion')]",
-      //      "properties": {
-      //          "mode": "Incremental",
-      //          "templateLink": {
-      //              "uri": "[variables('vmmssURL')]",
-      //              "contentVersion": "1.0.0.0"
-     //          },
-     //       "parameters": { 
-     //           "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefAutomate')]"},
-     //           "adminUsername": {"value" : "[parameters('adminUsername')]"},
-     //           "adminPassword": {"value" : "[parameters('adminPassword')]"}
-     //           }
-     //      }    
-     //   }, 
         {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "CustomScriptForLinux",
+            "name": "StandAloneResource",
+            "type": "Microsoft.Resources/deployments",
             "apiVersion": "[variables('deploymentApiVersion')]",
-            "location": "[variables('location')]",
             "properties": {
-                "publisher": "Microsoft.OSTCExtensions",
-                "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.4",
-                "settings": {
-                    "fileUris": [
-                        "[variables('scriptUrl')]"
-                    ],
-                    "commandToExecute": "./create_containers.sh"
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('standaloneURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+            "parameters": { 
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"}
+              },
+              "settings": {
+                "fileUris": [
+                  "https://gist.github.com/ahmetalpbalkan/b5d4a856fe15464015ae87d5587a4439/raw/466f5c30507c990a4d5a2f5c79f901fa89a80841/hello.sh"
+                ],
+                "commandToExecute": "sh hello.sh"
+              }
+            }    
+        },
+        {
+            "name": "ChefAutomateResource",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "StandAloneResource"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('automateURL')]",
+                    "contentVersion": "1.0.0.0"
+              },
+            "parameters": { 
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefAutomate')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"}
                 }
-            }
+           }    
+        },
+        {
+            "name": "scalesetResource",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "StandAloneResource",
+                "ChefAutomateResource"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('runnerURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+            "parameters": { 
+                "vmName":  {"value" : "uniquestring([parameters('vmName'))]"},
+                "vmSSName": {"value" : "uniquestring([parameters('vmSSName')]"},
+                "instanceCount": {"value" : "[parameters('instanceCount')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"},
+                "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"} 
+                }
+            }    
         }
     ],
     "outputs": {
