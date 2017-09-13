@@ -2,13 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        
+        "vmName": { "type": "string" },
+        "vmSSName": { "type": "string" },
+        "instanceCount": { "type": "string" },
+        "adminUsername": { "type": "string" },
+        "adminPassword": { "type": "securestring" },
+        "resourcePrefix": { "type": "string" }  
     },
     "variables": {
         "deploymentApiVersion": "2015-01-01",
         "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
         "scalesetURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.json')]",
-        "scalesetparameterURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.params.json')]"
+        "vmmssURL": "[concat(variables('baseUrl'),'nestedTemplates/vmmss.json')]"
     },
     "resources": [
         {
@@ -21,12 +26,51 @@
                     "uri": "[variables('scalesetURL')]",
                     "contentVersion": "1.0.0.0"
                 },
-            "parametersLink": { 
-               "uri":"[variables('scalesetparameterURL')]",
-               "contentVersion":"1.0.0.0"
-            }
-        } 
-            
+            "parameters": { 
+                "vmName":  {"value" : "uniquestring([parameters('vmName'))]"},
+                "vmSSName": {"value" : "uniquestring([parameters('vmSSName')]"},
+                "instanceCount": {"value" : "[parameters('instanceCount')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"},
+                "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"} 
+                }
+            }    
+        },
+        {
+            "name": "StandAloneResource",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('vmmssURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+            "parameters": { 
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
+                "vmSSName": {"value" : "[concat(uniquestring(parameters('vmSSName')), 'ChefStandAlone')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"}
+                }
+            }    
+        },
+        {
+            "name": "StandAloneResource",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('vmmssURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+            "parameters": { 
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefAutomate')]"},
+                "vmSSName": {"value" : "[concat(uniquestring(parameters('vmSSName')), 'ChefAutomate')]"},
+                "adminUsername": {"value" : "[parameters('adminUsername')]"},
+                "adminPassword": {"value" : "[parameters('adminPassword')]"}
+                }
+            }    
         }
     ],
     "outputs": {
