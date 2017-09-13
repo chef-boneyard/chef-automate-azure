@@ -7,7 +7,15 @@
         "instanceCount": { "type": "string" },
         "adminUsername": { "type": "string" },
         "adminPassword": { "type": "securestring" },
-        "resourcePrefix": { "type": "string" }  
+        "resourcePrefix": { "type": "string" },  
+        "ADMIN_EMAIL": { "type": "string" }, 
+        "ORG_SHORT_NAME": { "type": "string" }, 
+        "ORG_LONG_NAME": { "type": "string" },
+        "KEY_DIR": { "type": "string" },
+        "sa_name": { "type": "string" },
+        "rg_name": { "type": "string" },
+        "container_name01": { "type": "string" }, 
+        "container_name02": { "type": "string" } 
     },
     "variables": {
         "deploymentApiVersion": "2015-01-01",
@@ -15,7 +23,8 @@
         "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
         "runnerURL": "[concat(variables('baseUrl'),'nestedTemplates/runner.json')]",
         "standaloneURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_standalone.json')]",
-        "automateURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_automate.json')]"
+        "automateURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_automate.json')]",
+        "serverExtensionURL": "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]"
     },
     "resources": [
         {
@@ -32,12 +41,6 @@
                 "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"}
-              },
-              "settings": {
-                "fileUris": [
-                  "https://gist.github.com/ahmetalpbalkan/b5d4a856fe15464015ae87d5587a4439/raw/466f5c30507c990a4d5a2f5c79f901fa89a80841/hello.sh"
-                ],
-                "commandToExecute": "sh hello.sh"
               }
             }    
         },
