@@ -6,8 +6,9 @@
     },
     "variables": {
         "deploymentApiVersion": "2015-01-01",
-        "baseUrl": "https://github.com/chef-customers/chef-automate-azure/tree/OrchestrationTemplate/",
-        "scalesetURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.json')]"
+        "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
+        "scalesetURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.json')]",
+        "scalesetparameterURL": "[concat(variables('baseUrl'),'nestedTemplates/scaleset.params.json')]"
     },
     "resources": [
         {
@@ -19,8 +20,13 @@
                 "templateLink": {
                     "uri": "[variables('scalesetURL')]",
                     "contentVersion": "1.0.0.0"
-                }
+                },
+            "parametersLink": { 
+               "uri":"[variables('scalesetparameterURL')]",
+               "contentVersion":"1.0.0.0"
             }
+        } 
+            
         }
     ],
     "outputs": {
