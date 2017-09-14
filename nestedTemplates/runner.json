@@ -295,7 +295,7 @@
                             "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
                           ],
 
-                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName))]"
+                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName'))]"
                         }
 
                       }
