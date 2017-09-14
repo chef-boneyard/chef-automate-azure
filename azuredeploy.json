@@ -38,7 +38,7 @@
                     "contentVersion": "1.0.0.0"
                 },
             "parameters": { 
-                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'chefstandalone')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
                 "ADMIN_EMAIL": { "value" : "[parameters('ADMIN_EMAIL')]" }, 
@@ -66,7 +66,7 @@
                     "contentVersion": "1.0.0.0"
               },
             "parameters": { 
-                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefAutomate')]"},
+                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'chefautomate')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
                 "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" }

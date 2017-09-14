@@ -50,7 +50,7 @@
     "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat(uniquestring(parameters('vmName')), 'publicip')]",
     "publicIPAddressType": "Dynamic",
-    "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'ChefStandAlonedn')]",    
+    "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'chefstandalonedn')]",    
     "vmSize": "Standard_A2",
     "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
