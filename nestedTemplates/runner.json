@@ -1,6 +1,6 @@
 {
-    "$schema":"http://schema.management.azure.com/schemas/2014-04-01-preview/VM.json",
-    "contentVersion": "1.0.0.0",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
     "parameters": {
         "vmName": { "type": "string" },
         "vmSSName": { "type": "string" },
@@ -39,8 +39,8 @@
     "wadmetricsresourceid": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name ,'/providers/','Microsoft.Compute/virtualMachineScaleSets/',parameters('vmssName'))]",
     "wadcfgxend": "[concat('\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>')]",
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
+    "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetName'))]"
   },
     "resources": [
         {
@@ -121,7 +121,6 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
               "storageLoop",
-              "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
               "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
             ],
             "sku": {
@@ -227,7 +226,7 @@
                             "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
                           ],
 
-                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
+                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vmName'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('adminUsername'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
                         }
 
                       }
