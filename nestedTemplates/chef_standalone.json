@@ -68,7 +68,8 @@
     "vmSize": "Standard_A2",
     "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/"
   },
   "resources": [
     {
@@ -182,7 +183,7 @@
         "location": "[resourceGroup().location]",
         "apiVersion": "2015-06-15",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName')]"
+          "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
         ],
         "properties": {
             "publisher": "Microsoft.Azure.Extensions",
