@@ -260,21 +260,44 @@
                 "extensionProfile": {
                   "extensions": [
                     {
-                      "name":"LinuxDiagnostic",
+                      "name": "LinuxDiagnostic",
                       "properties": {
-                        "publisher":"Microsoft.OSTCExtensions",
-                        "type":"LinuxDiagnostic",
-                        "typeHandlerVersion":"2.1",
-                        "autoUpgradeMinorVersion":false,
+                        "publisher": "Microsoft.OSTCExtensions",
+                        "type": "LinuxDiagnostic",
+                        "typeHandlerVersion": "2.1",
+                        "autoUpgradeMinorVersion": false,
                         "settings": {
-                          "xmlCfg":"[base64(concat(variables('wadcfgxstart'),variables('wadmetricsresourceid'),variables('wadcfgxend')))]",
-                          "storageAccount":"[variables('diagnosticsStorageAccountName')]"
+                          "xmlCfg": "[base64(concat(variables('wadcfgxstart'),variables('wadmetricsresourceid'),variables('wadcfgxend')))]",
+                          "storageAccount": "[variables('diagnosticsStorageAccountName')]"
                         },
                         "protectedSettings": {
-                          "storageAccountName":"[variables('diagnosticsStorageAccountName')]",
-                          "storageAccountKey":"[listkeys(variables('accountid'), '2015-06-15').key1]",
-                          "storageAccountEndPoint":"https://core.windows.net"
+                          "storageAccountName": "[variables('diagnosticsStorageAccountName')]",
+                          "storageAccountKey": "[listkeys(variables('accountid'), '2015-06-15').key1]",
+                          "storageAccountEndPoint": "https://core.windows.net"
                         }
+                      }
+                    },
+                    {
+                      "name": "RunnerScriptExtension",
+                      "type": "Microsoft.Compute/virtualMachines/extensions",
+                      "location": "[resourceGroup().location]",
+                      "apiVersion": "2015-06-15",
+                      "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+                      ],
+                      "properties": {
+                        "publisher": "Microsoft.Azure.Extensions",
+                        "type": "CustomScript",
+                        "typeHandlerVersion": "2.0",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                          "fileUris": [
+                            "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
+                          ],
+
+                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName))]"
+                        }
+
                       }
                     }
                   ]
@@ -345,29 +368,6 @@
                   ],
               "targetResourceUri": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/', resourceGroup().name,'/providers/Microsoft.Compute/virtualMachineScaleSets/',parameters('vmSSName'))]"
             }
-        },
-        {
-          "name": "RunnerScriptExtension",
-          "type": "Microsoft.Compute/virtualMachines/extensions",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2015-06-15",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-          ],
-          "properties": {
-              "publisher": "Microsoft.Azure.Extensions",
-              "type": "CustomScript",
-              "typeHandlerVersion": "2.0",
-              "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
-              ],
-              
-              "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName))]"
-            }
-  
-          }
-      }
+        }
     ]
   }
