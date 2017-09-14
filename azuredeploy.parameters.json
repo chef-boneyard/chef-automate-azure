@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vmName": {
-            "value": "chefserver"
+            "value": "chefserver3"
         },
         "vmSSName": {
-            "value": "chefrunner"
+            "value": "chefrunner3"
         },
         "instanceCount": {
             "value": "2"
@@ -18,7 +18,7 @@
             "value": "1234Microsoft@1234"
         },
         "resourcePrefix": {
-            "value": "chefsubwaysa"
+            "value": "chefsubwaysa3"
         },
         "ADMIN_EMAIL": {
             "value": "admin@subway.com"
@@ -33,10 +33,10 @@
             "value": "/chefmnt/keys"
         },
         "sa_name": {
-            "value": "subwaychefserversa01"
+            "value": "subwaychefserversa04"
         },
         "rg_name": {
-            "value": "subway"
+            "value": "subway3"
         },
         "container_name01": {
             "value": "subway01"
@@ -45,13 +45,13 @@
             "value": "subway02"
         },
         "az_user": {
-            "value": "0c17c822148"
+            "value": "0c12148"
         },
         "az_pass": {
-            "value": "KnZEAT8M="
+            "value": "KnZIAWT8M="
         },
         "az_tenant": {
-            "value": "72f91db47"
+            "value": "72f1db47"
         }
     }
 }
