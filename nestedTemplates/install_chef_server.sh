@@ -52,7 +52,7 @@ mount -a
 
 mkdir $KEY_DIR
 
-wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo chef-server-ctl reconfigure
+wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && chef-server-ctl reconfigure
 
 # create admin user
 chef-server-ctl user-create delivery chef delivery $ADMIN_EMAIL '$PASSWORD' --filename $KEY_DIR/delivery.pem
