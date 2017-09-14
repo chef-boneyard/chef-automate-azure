@@ -10,4 +10,12 @@ ext_config='{
     "commandToExecute": "./register_automate_runner.sh ' + $runner_password $runner_ip $runner_username + '"
 }'
 
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+yum check-update
+
+yum install azure-cli -y
+
+az login -u username -p password --tenant id
+
 az vm extension set --resource-group $rg_name --vm-name $vm_name --name runnerScript --publisher Microsoft.Azure.Extensions --settings $ext_config

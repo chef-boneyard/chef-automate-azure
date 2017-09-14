@@ -9,6 +9,14 @@ rg_name=$6
 container_name01=$7
 container_name02=$8
 
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+yum check-update
+
+yum install samba-client samba-common cifs-utils jq.x86_64 azure-cli -y
+
+az login -u username -p password --tenant id
+
 echo "Creating the storage-account..."
 
 az storage account create \
@@ -29,26 +37,24 @@ fi
 
 az storage share create --name files --quota 2048 --connection-string $current_env_conn_string 1 > /dev/null
 
-sudo yum install samba-client samba-common cifs-utils jq.x86_64
-
 sa_key=$(az storage account keys list --name $sa_name --resource-group $rg_name | jq '.[0] | .value')
 
 mkdir /chefmnt/keys
 
-sudo bash -c 'echo "//' + $sa_name + \
+bash -c 'echo "//' + $sa_name + \
     '.file.core.windows.net/files /chefmnt cifs vers=3.0,username=' + $sa_name + \
     ',password=' + $sa_key + ',dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab'
 
-sudo mount -a
+mount -a
 
 mkdir $KEY_DIR
 
-wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo chef-server-ctl reconfigure
+wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo chef-server-ctl reconfigure
 
 # create admin user
-sudo chef-server-ctl user-create delivery chef delivery $ADMIN_EMAIL '$PASSWORD' --filename $KEY_DIR/delivery.pem
+chef-server-ctl user-create delivery chef delivery $ADMIN_EMAIL '$PASSWORD' --filename $KEY_DIR/delivery.pem
 
 # create organization
-sudo chef-server-ctl org-create $ORG_SHORT_NAME $ORG_LONG_NAME --filename $KEY_DIR/$ORG_SHORT_NAME-validator.pem -a delivery
+chef-server-ctl org-create $ORG_SHORT_NAME $ORG_LONG_NAME --filename $KEY_DIR/$ORG_SHORT_NAME-validator.pem -a delivery
 
 echo "Done"
