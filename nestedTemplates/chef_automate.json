@@ -41,11 +41,13 @@
     "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat(uniquestring(parameters('vmName')), 'publicip')]",
     "publicIPAddressType": "Dynamic",
+    "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'ChefAutomatedn')]",    
     "vmSize": "Standard_A2",
     "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/"
+    "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
+    "location" : "[resourceGroup().location]"
   },
   "resources": [
     {
@@ -54,7 +56,11 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('domainNameLabel')]",
+          "fqdn": "[concat(variables('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]"
+      }
       }
     },
     {

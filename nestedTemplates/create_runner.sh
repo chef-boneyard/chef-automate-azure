@@ -6,7 +6,7 @@ runner_password=$3
 runner_username=$4
 runner_ip=$(hostname  -I | cut -f1 -d' ')
 ext_config='{
-    "fileUris": ["http://raw.github.com/path/to/register_automate_runner.sh"],
+    "fileUris": ["https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/nestedTemplates/register_automate_runner.sh"],
     "commandToExecute": "./register_automate_runner.sh ' + $runner_password $runner_ip $runner_username + '"
 }'
 
