@@ -40,6 +40,15 @@
     },
     "subnetPrefix": {
       "type": "string"
+    },
+    "domainNameLabel": {
+      "type": "string"
+    },
+    "ORG_SHORT_NAME": {
+      "type": "string"
+    },
+    "ORG_LONG_NAME": {
+      "type": "string"
     }
   },
   "variables": {
@@ -59,7 +68,9 @@
     "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetName'))]",
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
     "Automate ExtensionScriptFolder": "CustomScripts",
-    "Automate ExtensionScriptFileName": "Automate Extension.sh"
+    "Automate ExtensionScriptFileName": "Automate Extension.sh",
+    "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', resourceGroup().location,'.cloudapp.azure.com')]",
+    "fqdn-automate": "[concat(parameters('vmName'), '.', resourceGroup().location,'.cloudapp.azure.com')]"
   },
   "resources": [
     {
@@ -68,7 +79,11 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('vmName')]",
+          "fqdn": "[variables('fqdn-automate')]"
+        }
       }
     },
     {
@@ -165,7 +180,7 @@
               "fileUris": [
                 "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
               ],
-              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
+              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', variables('fqdn-standalone'), ' ', parameters('ORG_SHORT_NAME'),' ', variables('fqdn-automate'), ' ', parameters('ORG_LONG_NAME'),' ', parameters('KEY_DIR'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
             }
           }
         }

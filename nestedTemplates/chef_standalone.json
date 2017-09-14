@@ -52,6 +52,9 @@
     },
     "subnetPrefix": {
       "type": "string"
+    },
+    "domainNameLabel": {
+      "type": "string"
     }
   },
   "variables": {
@@ -65,8 +68,7 @@
     "nicName": "[concat(uniquestring(parameters('vmName')), 'nic')]",
     "addressPrefix": "10.0.0.0/16",
     "publicIPAddressName": "[concat(uniquestring(parameters('vmName')), 'publicip')]",
-    "publicIPAddressType": "Dynamic",
-    "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'chefstandalonedn')]",    
+    "publicIPAddressType": "Dynamic",   
     "vmSize": "Standard_A2",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
@@ -84,8 +86,8 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[variables('domainNameLabel')]",
-          "fqdn": "[concat(variables('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]"
+          "domainNameLabel": "[parameters('domainNameLabel')]",
+          "fqdn": "[concat(parameters('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]"
         }
       }
     },
