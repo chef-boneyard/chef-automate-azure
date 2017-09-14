@@ -19,7 +19,13 @@
       "metadata": {
         "description": "Name for the Virtual Machine."
       }
-    }
+    },
+    "baseUrl": {
+      "type": "string"
+    },
+    "KEY_DIR": { 
+      "type": "string" 
+    } 
   },
   "variables": {
     "computeResouresApiVersion": "2016-04-30-preview",
@@ -145,6 +151,27 @@
           ]
         }
       }
-    }
+    },
+    {
+      "name": "AutomateScriptExtension",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName')]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
+          ],
+          "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'))]"
+        }
+      }
+  }
   ]
 }
