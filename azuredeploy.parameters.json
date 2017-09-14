@@ -2,44 +2,47 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "objectId": {
-            "value": "GEN-UNIQUE"
-        },
-        "vaultSku": {
-            "value": "Standard"
-        },
-        "adminUsername": {
-            "value": "GEN-UNIQUE"
-        },
-        "sshKeyData": {
-            "value": "GEN-SSH-PUB-KEY"
-        },
-        "vmSize": {
-            "value": "Standard_F4s"
-        },
-        "chefServerDnsPrefix": {
+        "vmName": {
             "value": "chefserver"
         },
-        "chefAutomateDnsPrefix": {
-            "value": "chefautomate"
+        "vmSSName": {
+            "value": "chefrunner"
         },
-        "firstName": {
-            "value": "User"
+        "instanceCount": {
+            "value": "2"
         },
-        "lastName": {
-            "value": "Name"
+        "adminUsername": {
+            "value": "chefuser"
         },
-        "emailId": {
-            "value": "user@password.com"
+        "adminPassword": {
+            "value": "1234Microsoft@1234"
         },
-        "organizationName": {
-            "value": "GEN-UNIQUE"
+        "resourcePrefix": {
+            "value": "sw"
         },
-        "appID": {
-            "value": "GEN-UNIQUE"
+        "ADMIN_EMAIL": {
+            "value": "admin@subway.com"
         },
-        "password": {
-            "value": "GEN-PASSWORD"
+        "ORG_SHORT_NAME": {
+            "value": "shortname"
+        },
+        "ORG_LONG_NAME": {
+            "value": "long name"
+        },
+        "KEY_DIR": {
+            "value": "/chefmnt/keys"
+        },
+        "sa_name": {
+            "value": "chefserversa"
+        },
+        "rg_name": {
+            "value": "subway"
+        },
+        "container_name01": {
+            "value": "subway01"
+        },
+        "container_name02": {
+            "value": "subway02"
         }
     }
 }
