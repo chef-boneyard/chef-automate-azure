@@ -34,6 +34,18 @@
       "metadata": {
         "description": "Name for the Virtual Machine."
     }
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Auto-generated token to access _artifactsLocation"
+      }
     }
   },
   "variables": {
@@ -56,7 +68,9 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
-    "location" : "[resourceGroup().location]"
+    "location" : "[resourceGroup().location]",
+    "testScriptFolder": "CustomScripts",
+    "testScriptFileName": "test.sh"
   },
   "resources": [
     {
@@ -166,28 +180,33 @@
             }
           ]
         }
-      }
-    }, 
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "Standalone/Script/Extension",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.5",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]"
+      },
+      "resources": [
+        {
+          "name": "StandaloneExtension",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2016-03-30",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
           ],
-          "commandToExecute": "[concat('sh install_chef_server.sh',' ', parameters('ADMIN_EMAIL'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('ORG_LONG_NAME'), ' ', parameters('KEY_DIR'),' ', parameters('sa_name'), ' ', parameters('rg_name'),' ', parameters('container_name01'), ' ', parameters('container_name02'))]"
+          "tags": {
+            "displayName": "test"
+          },
+          "properties": {
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]"
+              ],
+              "commandToExecute": "[concat('sh install_chef_server.sh',' ', parameters('ADMIN_EMAIL'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('ORG_LONG_NAME'), ' ', parameters('KEY_DIR'),' ', parameters('sa_name'), ' ', parameters('rg_name'),' ', parameters('container_name01'), ' ', parameters('container_name02'))]"
+            }    
+          }
         }
-      }
+      ]
     }
   ]
 }
