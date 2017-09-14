@@ -9,14 +9,6 @@ rg_name=$6
 container_name01=$7
 container_name02=$8
 
-wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo chef-server-ctl reconfigure
-
-# create admin user
-sudo chef-server-ctl user-create delivery chef delivery $ADMIN_EMAIL '$PASSWORD' --filename $KEY_DIR/delivery.pem
-
-# create organization
-sudo chef-server-ctl org-create $ORG_SHORT_NAME $ORG_LONG_NAME --filename $KEY_DIR/$ORG_SHORT_NAME-validator.pem -a delivery
-
 echo "Creating the storage-account..."
 
 az storage account create \
@@ -41,11 +33,22 @@ sudo yum install samba-client samba-common cifs-utils jq.x86_64
 
 sa_key=$(az storage account keys list --name $sa_name --resource-group $rg_name | jq '.[0] | .value')
 
-mkdir mymountpoint
+mkdir /chefmnt/keys
+
 sudo bash -c 'echo "//' + $sa_name + \
-    '.file.core.windows.net/files /mymountpoint cifs vers=3.0,username=' + $sa_name + \
+    '.file.core.windows.net/files /chefmnt cifs vers=3.0,username=' + $sa_name + \
     ',password=' + $sa_key + ',dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab'
 
 sudo mount -a
+
+mkdir $KEY_DIR
+
+wget https://packages.chef.io/files/stable/chef-server/12.16.9/el/7/chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo rpm -Uvh chef-server-core-12.16.9-1.el7.x86_64.rpm && sudo chef-server-ctl reconfigure
+
+# create admin user
+sudo chef-server-ctl user-create delivery chef delivery $ADMIN_EMAIL '$PASSWORD' --filename $KEY_DIR/delivery.pem
+
+# create organization
+sudo chef-server-ctl org-create $ORG_SHORT_NAME $ORG_LONG_NAME --filename $KEY_DIR/$ORG_SHORT_NAME-validator.pem -a delivery
 
 echo "Done"
