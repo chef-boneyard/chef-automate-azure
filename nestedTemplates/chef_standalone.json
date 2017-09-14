@@ -169,17 +169,17 @@
       }
     }, 
     {
-        "name": "StandaloneScriptExtension",
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "location": "[resourceGroup().location]",
+        "name": "StandaloneScriptExtension",
         "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
         "dependsOn": [
           "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
         ],
         "properties": {
-            "publisher": "Microsoft.Azure.Extensions",
-            "type": "CustomScript",
-            "typeHandlerVersion": "2.0",
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.5",
             "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": [
