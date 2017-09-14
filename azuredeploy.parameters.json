@@ -18,7 +18,7 @@
             "value": "1234Microsoft@1234"
         },
         "resourcePrefix": {
-            "value": "subwaysa"
+            "value": "chefsubwaysa"
         },
         "ADMIN_EMAIL": {
             "value": "admin@subway.com"
@@ -33,7 +33,7 @@
             "value": "/chefmnt/keys"
         },
         "sa_name": {
-            "value": "chefserversa"
+            "value": "subwaychefserversa01"
         },
         "rg_name": {
             "value": "subway"
