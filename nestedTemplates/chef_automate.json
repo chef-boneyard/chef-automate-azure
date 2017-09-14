@@ -70,7 +70,7 @@
     "Automate ExtensionScriptFolder": "CustomScripts",
     "Automate ExtensionScriptFileName": "Automate Extension.sh",
     "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', resourceGroup().location,'.cloudapp.azure.com')]",
-    "fqdn-automate": "[concat(parameters('vmName'), '.', resourceGroup().location,'.cloudapp.azure.com')]"
+    "fqdn-automate": "[concat('a', parameters('vmName'), '.', resourceGroup().location,'.cloudapp.azure.com')]"
   },
   "resources": [
     {
@@ -81,7 +81,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('vmName')]",
+          "domainNameLabel": "[concat('a', parameters('vmName'))]",
           "fqdn": "[variables('fqdn-automate')]"
         }
       }

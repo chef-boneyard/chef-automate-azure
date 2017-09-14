@@ -31,7 +31,7 @@
         "subnetName": "Subnet",
         "subnetPrefix": "10.0.0.0/24",
         "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
-        "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'chefstandalonedn')]",
+        "domainNameLabel": "[concat('chefstandalonedn', uniquestring(parameters('vmName')))]",
     },
     "resources": [
         {
@@ -92,7 +92,7 @@
                 "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
                 "domainNameLabel": { "value" : "[variables('domainNameLabel')]"}, 
                 "ORG_SHORT_NAME": {"value" : "[parameters('ORG_SHORT_NAME')]" }, 
-                "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"},
+                "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"}
                 }
            }    
         },
