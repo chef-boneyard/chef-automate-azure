@@ -31,7 +31,7 @@
         "subnetName": "Subnet",
         "subnetPrefix": "10.0.0.0/24",
         "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
-        "domainNameLabel": "[concat('chefstandalonedn', uniquestring(parameters('vmName')))]",
+        "standalonVmName": "[concat('chefstandalone', uniquestring(parameters('vmName')))]",
     },
     "resources": [
         {
@@ -45,7 +45,7 @@
                     "contentVersion": "1.0.0.0"
                 },
             "parameters": { 
-                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'chefstandalone')]"},
+                "vmName":  {"value" : "[variables('standalonVmName')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
                 "ADMIN_EMAIL": { "value" : "[parameters('ADMIN_EMAIL')]" }, 
@@ -62,7 +62,7 @@
                 "subnetName": { "value" : "[variables('subnetName')]"}, 
                 "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
                 "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
-                "domainNameLabel": { "value" : "[variables('domainNameLabel')]"}
+                "domainNameLabel": { "value" : "[variables('standalonVmName')]"}
               }
             }    
         },
@@ -80,7 +80,7 @@
                     "contentVersion": "1.0.0.0"
               },
             "parameters": { 
-                "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'chefautomate')]"},
+                "vmName":  {"value" : "[concat('chefautomate', uniquestring(parameters('vmName')))]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
                 "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" },
@@ -90,7 +90,7 @@
                 "subnetName": { "value" : "[variables('subnetName')]"}, 
                 "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
                 "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
-                "domainNameLabel": { "value" : "[variables('domainNameLabel')]"}, 
+                "domainNameLabel": { "value" : "[variables('standalonVmName')]"}, 
                 "ORG_SHORT_NAME": {"value" : "[parameters('ORG_SHORT_NAME')]" }, 
                 "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"}
                 }
@@ -111,7 +111,7 @@
                     "contentVersion": "1.0.0.0"
                 },
             "parameters": { 
-                "vmName":  {"value" : "uniquestring([parameters('vmName'))]"},
+                "vmName":  {"value" : "[concat('chefrunners', uniquestring(parameters('vmName')))]"},
                 "vmSSName": {"value" : "uniquestring([parameters('vmSSName')]"},
                 "instanceCount": {"value" : "[parameters('instanceCount')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
