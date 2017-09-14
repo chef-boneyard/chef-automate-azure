@@ -20,8 +20,23 @@
         "description": "Name for the Virtual Machine."
       }
     },
+    "baseUrl": {
+      "type": "string"
+    },
     "KEY_DIR": { 
       "type": "string" 
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Auto-generated token to access _artifactsLocation"
+      }
     } 
   },
   "variables": {
@@ -38,13 +53,13 @@
     "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat(uniquestring(parameters('vmName')), 'publicip')]",
     "publicIPAddressType": "Dynamic",
-    "domainNameLabel": "[concat(uniquestring(parameters('vmName')), 'ChefAutomatedn')]",    
     "vmSize": "Standard_A2",
     "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
-    "location" : "[resourceGroup().location]"
+    "Automate ExtensionScriptFolder": "CustomScripts",
+    "Automate ExtensionScriptFileName": "Automate Extension.sh"
   },
   "resources": [
     {
@@ -53,11 +68,7 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[variables('domainNameLabel')]",
-          "fqdn": "[concat(variables('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]"
-      }
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
       }
     },
     {
@@ -154,28 +165,33 @@
             }
           ]
         }
-      }
-    },
-    {
-      "name": "AutomateScriptExtension",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-      ],
-      "properties": {
-          "publisher": "Microsoft.Azure.Extensions",
-          "type": "CustomScript",
-          "typeHandlerVersion": "2.0",
-          "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
+      },
+      "resources": [
+        {
+          "name": "Automate Extension",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2016-03-30",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
           ],
-          "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'))]"
+          "tags": {
+            "displayName": "Automate Extension"
+          },
+          "properties": {
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
+              ],
+              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'))]"
+            }
+          }
         }
-      }
-  }
+      ]
+    }
   ]
 }
