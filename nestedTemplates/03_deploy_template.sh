@@ -2,4 +2,4 @@
 
 rg=subway
 
-az group deployment create --name vmssdeploy --resource-group subway --template-file azuredeploy.json --parameters @azuredeploy.parameters.json
+az group deployment create --name vmssdeploy1 --resource-group chefsubway --template-file azuredeploy.json --parameters @azuredeploy.parameters.json
