@@ -43,6 +43,15 @@
         },
         "container_name02": {
             "value": "subway02"
+        },
+        "az_user": {
+            "value": "subway02"
+        },
+        "az_pass": {
+            "value": "subway02"
+        },
+        "az_tenant": {
+            "value": "subway02"
         }
     }
 }

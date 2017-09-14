@@ -15,7 +15,10 @@
         "sa_name": { "type": "string" },
         "rg_name": { "type": "string" },
         "container_name01": { "type": "string" }, 
-        "container_name02": { "type": "string" } 
+        "container_name02": { "type": "string" }, 
+        "az_user": { "type": "string" }, 
+        "az_pass": { "type": "string" }, 
+        "az_tenant": { "type": "string" }
     },
     "variables": {
         "deploymentApiVersion": "2015-01-01",
@@ -48,7 +51,10 @@
                 "sa_name": { "value" : "[parameters('sa_name')]" },
                 "rg_name": {"value" : "[parameters('rg_name')]" },
                 "container_name01": { "value" : "[parameters('container_name01')]"}, 
-                "container_name02": { "value" : "[parameters('container_name02')]"} 
+                "container_name02": { "value" : "[parameters('container_name02')]"}, 
+                "az_user": { "value" : "[parameters('az_user')]"}, 
+                "az_pass": { "value" : "[parameters('az_pass')]"}, 
+                "az_tenant": { "value" : "[parameters('az_tenant')]"} 
               }
             }    
         },
@@ -69,7 +75,10 @@
                 "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'chefautomate')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
-                "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" }
+                "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" },
+                "az_user": { "value" : "[parameters('az_user')]" },
+                "az_pass": { "value" : "[parameters('az_pass')]" },
+                "az_tenant": { "value" : "[parameters('az_tenant')]" }
                 }
            }    
         },
@@ -93,7 +102,10 @@
                 "instanceCount": {"value" : "[parameters('instanceCount')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
                 "adminPassword": {"value" : "[parameters('adminPassword')]"},
-                "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"} 
+                "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"},
+                "az_user":{"value" : "[parameters('az_user')]"},
+                "az_pass":{"value" : "[parameters('az_pass')]"},
+                "az_tenant":{"value" : "[parameters('az_tenant')]"}
                 }
             }    
         }

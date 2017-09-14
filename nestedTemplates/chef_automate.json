@@ -22,6 +22,15 @@
     },
     "KEY_DIR": { 
       "type": "string" 
+    },
+    "az_user": { 
+      "type": "string" 
+    },
+    "az_pass": { 
+      "type": "string" 
+    },
+    "az_tenant": { 
+      "type": "string" 
     } 
   },
   "variables": {
@@ -172,7 +181,7 @@
               "fileUris": [
                 "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
               ],
-              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'))]"
+              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', parameters('AUTOMATE_LICENSE'), ' ', parameters('DELIVERY_KEY'),' ', parameters('CHEF_SERVER_FQDN'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('AUTOMATE_SERVER_FQDN'), ' ', parameters('ENTERPRISE_NAME'),' ', parameters('KEY_DIR'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
             }
           }
         }

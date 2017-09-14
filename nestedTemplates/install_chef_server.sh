@@ -8,6 +8,9 @@ sa_name=$5
 rg_name=$6
 container_name01=$7
 container_name02=$8
+az_user=$9
+az_pass=${10}
+az_tenant=${11}
 
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
@@ -15,7 +18,7 @@ yum check-update
 
 yum install samba-client samba-common cifs-utils jq.x86_64 azure-cli -y
 
-az login -u username -p password --tenant id
+az login -u $az_user -p $az_pass --tenant $az_tenant
 
 echo "Creating the storage-account..."
 

@@ -4,6 +4,9 @@ vm_name=$1 #name of automate server
 rg_name=$2
 runner_password=$3
 runner_username=$4
+az_user=$5
+az_pass=$6
+az_tenant=$7
 runner_ip=$(hostname  -I | cut -f1 -d' ')
 ext_config='{
     "fileUris": ["https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/nestedTemplates/register_automate_runner.sh"],
@@ -16,6 +19,6 @@ yum check-update
 
 yum install azure-cli -y
 
-az login -u username -p password --tenant id
+az login -u $az_user -p $az_pass --tenant $az_tenant
 
 az vm extension set --resource-group $rg_name --vm-name $vm_name --name runnerScript --publisher Microsoft.Azure.Extensions --settings $ext_config

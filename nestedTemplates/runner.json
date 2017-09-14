@@ -7,7 +7,10 @@
         "instanceCount": { "type": "string" },
         "adminUsername": { "type": "string" },
         "adminPassword": { "type": "securestring" },
-        "resourcePrefix": { "type": "string" }
+        "resourcePrefix": { "type": "string" },
+        "az_user": { "type": "string" },
+        "az_pass": { "type": "string" },
+        "az_tenant": { "type": "string" }
     },
   "variables": {
     "dnsName1": "[concat(parameters('resourcePrefix'),'dn1')]",
@@ -296,7 +299,7 @@
                             "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
                           ],
 
-                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName'))]"
+                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vm_name'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('admminName'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
                         }
 
                       }
