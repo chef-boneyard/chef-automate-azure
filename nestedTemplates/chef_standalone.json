@@ -2,6 +2,22 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "ADMIN_EMAIL": { "type": "string" },
+    "ORG_SHORT_NAME": { "type": "string"}, 
+    
+    "ORG_LONG_NAME": { "type": "string"},
+    
+    "KEY_DIR": { "type": "string"}, 
+    
+    "sa_name": { "type": "string"},
+    
+    "rg_name": { "type": "string"},
+    
+    "container_name01": { "type": "string"}, 
+    
+    "container_name02": { "type": "string"},
+    
+    "baseUrl": { "type": "string"}, 
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -18,37 +34,7 @@
       "type": "string",
       "metadata": {
         "description": "Name for the Virtual Machine."
-      },
-    "ADMIN_EMAIL": { 
-        "type": "string" 
-      }, 
-    "ORG_SHORT_NAME": { 
-        "type": "string" 
-      }, 
-    "ORG_LONG_NAME": { 
-        "type": "string" 
-      },
-    "KEY_DIR": { 
-        "type": "string" 
-      },
-    "sa_name": { 
-        "type": 
-        "string" 
-      },
-    "rg_name": { 
-        "type": 
-        "string" 
-      },
-    "container_name01": { 
-        "type": 
-        "string" 
-      }, 
-    "container_name02": { 
-        "type": "string" 
-      },
-    "baseUrl": {
-        "type": "string"
-      } 
+    }
     }
   },
   "variables": {
@@ -194,8 +180,10 @@
             "fileUris": [
               "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]"
             ],
-            "commandToExecute": "[concat('sh install_chef_server.sh',' ', parameters('ADMIN_EMAIL), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('ORG_LONG_NAME'), ' ', parameters('KEY_DIR'),' ', parameters('sa_name'), ' ', parameters('rg_name'),' ', parameters('container_name01'), ' ', parameters('container_name02'))]"
+            
+            "commandToExecute": "[concat('sh install_chef_server.sh',' ', parameters('ADMIN_EMAIL'), ' ', parameters('ORG_SHORT_NAME'),' ', parameters('ORG_LONG_NAME'), ' ', parameters('KEY_DIR'),' ', parameters('sa_name'), ' ', parameters('rg_name'),' ', parameters('container_name01'), ' ', parameters('container_name02'))]"
           }
+
         }
     }
   ]
