@@ -170,7 +170,7 @@
     }, 
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "StandaloneScriptExtension",
+      "name": "Standalone/Script/Extension",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
