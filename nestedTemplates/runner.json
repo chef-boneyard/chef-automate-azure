@@ -10,7 +10,16 @@
         "resourcePrefix": { "type": "string" },
         "az_user": { "type": "string" },
         "az_pass": { "type": "string" },
-        "az_tenant": { "type": "string" }
+        "az_tenant": { "type": "string" },
+        "virtualNetworkName": {
+          "type": "string"
+        },
+        "subnetName": {
+          "type": "string"
+        },
+        "subnetPrefix": {
+          "type": "string"
+        }
     },
   "variables": {
     "dnsName1": "[concat(parameters('resourcePrefix'),'dn1')]",
@@ -18,7 +27,6 @@
     "publicIP1": "[concat(parameters('resourcePrefix'),'ip1')]",
     "publicIP2": "[concat(parameters('resourcePrefix'),'ip2')]",
     "loadBalancerName": "[concat(parameters('resourcePrefix'),'lb1')]",
-    "virtualNetworkName": "[concat(parameters('resourcePrefix'),'vn1')]",
     "nicName": "[concat(parameters('resourcePrefix'),'nc1')]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('loadBalancerName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
@@ -30,7 +38,9 @@
     "wadcfgxstart": "[concat(variables('wadlogs'),variables('wadperfcounter'),'<Metrics resourceId=\"')]",
     "wadmetricsresourceid": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name ,'/providers/','Microsoft.Compute/virtualMachineScaleSets/',parameters('vmssName'))]",
     "wadcfgxend": "[concat('\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>')]",
-    "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/"
+    "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]"
   },
     "resources": [
         {
@@ -43,21 +53,6 @@
             },
             "location": "[resourceGroup().location]",
             "properties": { "accountType": "Standard_LRS" }
-        },
-        {
-            "apiVersion": "2015-06-15",
-            "type": "Microsoft.Network/virtualNetworks",
-            "name": "[variables('virtualNetworkName')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-              "addressSpace": { "addressPrefixes": [ "10.0.0.0/16" ] },
-              "subnets": [
-                {
-                  "name": "subnet1",
-                  "properties": { "addressPrefix": "10.0.0.0/24" }
-                }
-              ]
-            }
         },
         {
             "apiVersion": "2016-03-30",
@@ -120,80 +115,13 @@
             }
         },
         {
-            "apiVersion": "2016-03-30",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('nicName')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-              "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIP2'))]",
-              "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
-            ],
-            "properties": {
-              "ipConfigurations": [
-                {
-                  "name": "ipconfig1",
-                  "properties": {
-                    "privateIPAllocationMethod": "Dynamic",
-                    "publicIPAddress": {
-                      "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIP2'))]"
-                    },
-                    "subnet": {
-                      "id": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Network/virtualNetworks/',variables('virtualNetworkName'),'/subnets/subnet1')]"
-                    }
-                  }
-                }
-              ]
-            }
-        },
-        {
-            "apiVersion": "2016-03-30",
-            "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('vmName')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-              "storageLoop",
-              "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-            ],
-            "properties": {
-              "hardwareProfile": { "vmSize": "Standard_A1" },
-              "osProfile": {
-                "computername": "[parameters('vmName')]",
-                "adminUsername": "[parameters('adminUsername')]",
-                "adminPassword": "[parameters('adminPassword')]"
-              },
-              "storageProfile": {
-                "imageReference": {
-                  "publisher": "OpenLogic",
-                  "offer": "CentOS",
-                  "sku": "7.3",
-                  "version": "latest"
-                },
-                "osDisk": {
-                  "name": "[concat(parameters('resourcePrefix'), 'os1')]",
-                  "vhd": {
-                    "uri":  "[concat('https://',parameters('resourcePrefix'),'a.blob.core.windows.net/vhds/',parameters('resourcePrefix'),'os1.vhd')]"
-                  },
-                  "caching": "ReadWrite",
-                  "createOption": "FromImage"
-                }
-              },
-              "networkProfile": {
-                "networkInterfaces": [
-                  {
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
-                  }
-                ]
-              }
-            }
-        },
-        {
             "type": "Microsoft.Compute/virtualMachineScaleSets",
             "apiVersion": "2016-03-30",
             "name": "[parameters('vmSSName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
               "storageLoop",
-              "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+              "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
               "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]"
             ],
             "sku": {
@@ -242,7 +170,7 @@
                             "name": "ip1",
                             "properties": {
                               "subnet": {
-                                "id": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/Microsoft.Network/virtualNetworks/',variables('virtualNetworkName'),'/subnets/subnet1')]"
+                                "id": "[variables('subnetRef')]"
                               },
                               "loadBalancerBackendAddressPools": [
                                 {

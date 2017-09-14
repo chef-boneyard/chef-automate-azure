@@ -2,4 +2,4 @@
 
 rg=subway
 
-az group deployment create --name vmssdeploy --resource-group $rg --template-file scaleset.json --parameters @scaleset.params.json
+az group deployment create --name vmssdeploy --resource-group subway --template-file azuredeploy.json --parameters @azuredeploy.parameters.json

@@ -27,7 +27,10 @@
         "runnerURL": "[concat(variables('baseUrl'),'nestedTemplates/runner.json')]",
         "standaloneURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_standalone.json')]",
         "automateURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_automate.json')]",
-        "serverExtensionURL": "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]"
+        "serverExtensionURL": "[concat(variables('baseUrl'),'nestedTemplates/install_chef_server.sh')]",
+        "subnetName": "Subnet",
+        "subnetPrefix": "10.0.0.0/24",
+        "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]"
     },
     "resources": [
         {
@@ -54,7 +57,10 @@
                 "container_name02": { "value" : "[parameters('container_name02')]"}, 
                 "az_user": { "value" : "[parameters('az_user')]"}, 
                 "az_pass": { "value" : "[parameters('az_pass')]"}, 
-                "az_tenant": { "value" : "[parameters('az_tenant')]"} 
+                "az_tenant": { "value" : "[parameters('az_tenant')]"}, 
+                "subnetName": { "value" : "[variables('subnetName')]"}, 
+                "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
+                "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}
               }
             }    
         },
@@ -78,7 +84,10 @@
                 "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" },
                 "az_user": { "value" : "[parameters('az_user')]" },
                 "az_pass": { "value" : "[parameters('az_pass')]" },
-                "az_tenant": { "value" : "[parameters('az_tenant')]" }
+                "az_tenant": { "value" : "[parameters('az_tenant')]" }, 
+                "subnetName": { "value" : "[variables('subnetName')]"}, 
+                "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
+                "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}
                 }
            }    
         },
@@ -105,7 +114,10 @@
                 "resourcePrefix":{"value" : "[parameters('resourcePrefix')]"},
                 "az_user":{"value" : "[parameters('az_user')]"},
                 "az_pass":{"value" : "[parameters('az_pass')]"},
-                "az_tenant":{"value" : "[parameters('az_tenant')]"}
+                "az_tenant":{"value" : "[parameters('az_tenant')]"}, 
+                "subnetName": { "value" : "[variables('subnetName')]"}, 
+                "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
+                "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}
                 }
             }    
         }
