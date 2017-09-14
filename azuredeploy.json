@@ -40,7 +40,15 @@
             "parameters": { 
                 "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefStandAlone')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
-                "adminPassword": {"value" : "[parameters('adminPassword')]"}
+                "adminPassword": {"value" : "[parameters('adminPassword')]"},
+                "ADMIN_EMAIL": { "value" : "[parameters('ADMIN_EMAIL')]" }, 
+                "ORG_SHORT_NAME": {"value" : "[parameters('ORG_SHORT_NAME')]" }, 
+                "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"},
+                "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" },
+                "sa_name": { "value" : "[parameters('sa_name')]" },
+                "rg_name": {"value" : "[parameters('rg_name')]" },
+                "container_name01": { "value" : "[parameters('container_name01')]"}, 
+                "container_name02": { "value" : "[parameters('container_name02')]"} 
               }
             }    
         },
@@ -60,7 +68,8 @@
             "parameters": { 
                 "vmName":  {"value" : "[concat(uniquestring(parameters('vmName')), 'ChefAutomate')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},
-                "adminPassword": {"value" : "[parameters('adminPassword')]"}
+                "adminPassword": {"value" : "[parameters('adminPassword')]"},
+                "KEY_DIR": { "value" : "[parameters('KEY_DIR')]" }
                 }
            }    
         },

@@ -20,9 +20,6 @@
         "description": "Name for the Virtual Machine."
       }
     },
-    "baseUrl": {
-      "type": "string"
-    },
     "KEY_DIR": { 
       "type": "string" 
     } 
