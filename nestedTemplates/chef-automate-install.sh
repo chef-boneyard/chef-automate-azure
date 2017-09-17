@@ -18,7 +18,7 @@ yum check-update
 
 yum install samba-client samba-common cifs-utils jq.x86_64 azure-cli -y
 
-az login -u $az_spn_user -p $az_spn_sec --tenant $az_spn_ten
+az login --service-principal -u $az_spn_user -p $az_spn_sec --tenant $az_spn_ten
 
 sa_key=$(az storage account keys list --name $sa_name --resource-group $rg_name | jq '.[0] | .value')
 

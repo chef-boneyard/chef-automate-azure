@@ -18,7 +18,7 @@ yum check-update
 
 yum install samba-client samba-common cifs-utils jq.x86_64 azure-cli -y
 
-az login -u $az_user -p $az_pass --tenant $az_tenant
+az login --service-principal -u $az_user -p $az_pass --tenant $az_tenant
 
 echo "Creating the storage-account..."
 
@@ -29,8 +29,8 @@ az storage account create \
     --sku Premium_LRS
 
 echo "Creating the containers..."
-az storage container create --name $container_name01 --name $sa_name --resource-group $rg_name
-az storage container create --name $container_name02 --name $sa_name --resource-group $rg_name
+az storage container create --name $container_name01 --account-name $sa_name
+az storage container create --name $container_name02 --account-name $sa_name
 
 current_env_conn_string = $(az storage account show-connection-string -n $sa_name -g $rg_name --query 'connectionString' -o tsv)
 

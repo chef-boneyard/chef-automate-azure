@@ -180,7 +180,7 @@
               "fileUris": [
                 "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
               ],
-              "commandToExecute": "[concat('sh chef_automate_install.sh',' ', variables('fqdn-standalone'), ' ', parameters('ORG_SHORT_NAME'),' ', variables('fqdn-automate'), ' ', parameters('ORG_LONG_NAME'),' ', parameters('KEY_DIR'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
+              "commandToExecute": "[concat(echo ', prameters('adminPassword'), ' | sudo -S sh chef_automate_install.sh',' ', variables('fqdn-standalone'), ' ', parameters('ORG_SHORT_NAME'),' ', variables('fqdn-automate'), ' ', parameters('ORG_LONG_NAME'),' ', parameters('KEY_DIR'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
             }
           }
         }
