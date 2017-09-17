@@ -26,19 +26,19 @@ az storage account create \
     --location eastus \
     --name $sa_name \
     --resource-group $rg_name \
-    --sku Premium_LRS
+    --sku Standard_RAGRS
 
 echo "Creating the containers..."
 az storage container create --name $container_name01 --account-name $sa_name
 az storage container create --name $container_name02 --account-name $sa_name
 
-current_env_conn_string = $(az storage account show-connection-string -n $sa_name -g $rg_name --query 'connectionString' -o tsv)
+current_env_conn_string=$(az storage account show-connection-string -n $sa_name -g $rg_name --query 'connectionString' -o tsv)
 
 if [[ $current_env_conn_string == "" ]]; then  
     echo "Couldn't retrieve the connection string."
 fi
 
-az storage share create --name files --quota 2048 --connection-string $current_env_conn_string 1 > /dev/null
+az storage share create --name files --quota 2048 --connection-string $current_env_conn_string
 
 sa_key=$(az storage account keys list --name $sa_name --resource-group $rg_name | jq '.[0] | .value')
 
