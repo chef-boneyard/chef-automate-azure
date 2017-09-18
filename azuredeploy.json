@@ -14,6 +14,7 @@
         "KEY_DIR": { "type": "string" },
         "sa_name": { "type": "string" },
         "rg_name": { "type": "string" },
+        "domainNameLabel": { "type": "string" },
         "container_name01": { "type": "string" }, 
         "container_name02": { "type": "string" }, 
         "az_user": { "type": "string" }, 
@@ -31,7 +32,7 @@
         "subnetName": "Subnet",
         "subnetPrefix": "10.0.0.0/24",
         "virtualNetworkName": "[concat(uniquestring(parameters('vmName')), 'vnet')]",
-        "standalonVmName": "[concat('chefstandalone', uniquestring(parameters('vmName')))]",
+        "standalonVmName": "[concat('chefstandalone', uniquestring(parameters('vmName')))]"
     },
     "resources": [
         {
@@ -61,8 +62,7 @@
                 "az_tenant": { "value" : "[parameters('az_tenant')]"}, 
                 "subnetName": { "value" : "[variables('subnetName')]"}, 
                 "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
-                "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
-                "domainNameLabel": { "value" : "[variables('standalonVmName')]"}
+                "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}
               }
             }    
         },
@@ -90,7 +90,7 @@
                 "subnetName": { "value" : "[variables('subnetName')]"}, 
                 "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
                 "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
-                "domainNameLabel": { "value" : "[variables('standalonVmName')]"}, 
+                "domainNameLabel": { "value" : "[parameters('domainenamelabel')]"}, 
                 "ORG_SHORT_NAME": {"value" : "[parameters('ORG_SHORT_NAME')]" }, 
                 "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"}
                 }
