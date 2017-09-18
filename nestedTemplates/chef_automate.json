@@ -161,7 +161,7 @@
       },
       "resources": [
         {
-          "name": "Automate Extension",
+          "name": "AutomateExtension",
           "type": "extensions",
           "location": "[resourceGroup().location]",
           "apiVersion": "2016-03-30",
@@ -169,12 +169,12 @@
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
           ],
           "tags": {
-            "displayName": "Automate Extension"
+            "displayName": "extforchefautomate"
           },
           "properties": {
-            "publisher": "Microsoft.OSTCExtensions",
-            "type": "CustomScriptForLinux",
-            "typeHandlerVersion": "1.4",
+            "publisher": "Microsoft.Azure.Extensions",
+            "type": "CustomScript",
+            "typeHandlerVersion": "2.0",
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
