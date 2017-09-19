@@ -196,7 +196,7 @@
             "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
           ],
           "tags": {
-            "displayName": "test"
+            "displayName": "extforchefserver"
           },
           "properties": {
             "publisher": "Microsoft.Azure.Extensions",

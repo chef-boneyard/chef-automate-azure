@@ -1,16 +1,16 @@
 #!/bin/bash
 
+CHEF_SERVER_FQDN=$1
+AUTOMATE_CHEF_ORG=$2
+AUTOMATE_SERVER_FQDN=$3
+ENTERPRISE_NAME=$4
+KEY_DIR=$5
+sa_name=$6
+rg_name=$7
+az_spn_user=$8
+az_spn_sec=$9
+az_spn_ten=${10}
 AUTOMATE_LICENSE=delivery.license
-CHEF_SERVER_FQDN=$2
-AUTOMATE_CHEF_ORG=$3
-AUTOMATE_SERVER_FQDN=$4
-ENTERPRISE_NAME=$5
-KEY_DIR=$6
-sa_name=$7
-rg_name=$8
-az_spn_user=$9
-az_spn_sec=${10}
-az_spn_ten=${11}
 
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'

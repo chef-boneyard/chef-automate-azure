@@ -56,7 +56,8 @@
                 "sa_name": { "value" : "[parameters('sa_name')]" },
                 "rg_name": {"value" : "[parameters('rg_name')]" },
                 "container_name01": { "value" : "[parameters('container_name01')]"}, 
-                "container_name02": { "value" : "[parameters('container_name02')]"}, 
+                "container_name02": { "value" : "[parameters('container_name02')]"},
+                "domainNameLabel": { "value" : "[parameters('domainNameLabel')]"},  
                 "az_user": { "value" : "[parameters('az_user')]"}, 
                 "az_pass": { "value" : "[parameters('az_pass')]"}, 
                 "az_tenant": { "value" : "[parameters('az_tenant')]"}, 
@@ -87,10 +88,12 @@
                 "az_user": { "value" : "[parameters('az_user')]" },
                 "az_pass": { "value" : "[parameters('az_pass')]" },
                 "az_tenant": { "value" : "[parameters('az_tenant')]" }, 
+                "sa_name": { "value" : "[parameters('sa_name')]" },
+                "rg_name": {"value" : "[parameters('rg_name')]" },
                 "subnetName": { "value" : "[variables('subnetName')]"}, 
                 "subnetPrefix": { "value" : "[variables('subnetPrefix')]"}, 
                 "virtualNetworkName": { "value" : "[variables('virtualNetworkName')]"}, 
-                "domainNameLabel": { "value" : "[parameters('domainenamelabel')]"}, 
+                "domainNameLabel": { "value" : "[parameters('domainNameLabel')]"}, 
                 "ORG_SHORT_NAME": {"value" : "[parameters('ORG_SHORT_NAME')]" }, 
                 "ORG_LONG_NAME": { "value" : "[parameters('ORG_LONG_NAME')]"}
                 }
