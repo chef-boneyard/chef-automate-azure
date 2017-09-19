@@ -41,10 +41,12 @@
     "subnetPrefix": {
       "type": "string"
     },
-    "sa_name": { "type": "string"},
-    
-    "rg_name": { "type": "string"},
-    
+    "sa_name": { 
+      "type": "string"
+    },    
+    "rg_name": { 
+      "type": "string"
+    },    
     "domainNameLabel": {
       "type": "string"
     },
