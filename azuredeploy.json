@@ -114,7 +114,8 @@
                     "contentVersion": "1.0.0.0"
                 },
             "parameters": { 
-                "vmName":  {"value" : "[concat('chefrunners', uniquestring(parameters('vmName')))]"},
+            
+                "vmName":  {"value" : "[concat('chefautomate', uniquestring(parameters('vmName')))]"},
                 "vmSSName": {"value" : "uniquestring([parameters('vmSSName')]"},
                 "instanceCount": {"value" : "[parameters('instanceCount')]"},
                 "adminUsername": {"value" : "[parameters('adminUsername')]"},

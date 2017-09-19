@@ -226,7 +226,7 @@
                             "[concat(variables('baseUrl'),'nestedTemplates/create_runner.sh')]"
                           ],
 
-                          "commandToExecute": "[concat('sh create_runner.sh',' ', parameters('vmName'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('adminUsername'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
+                          "commandToExecute": "[concat('echo ', parameters('adminPassword'), ' | sudo -S sh create_runner.sh',' ', parameters('vmName'), ' ', resourceGroup().name,' ', parameters('adminPassword'),' ', parameters('adminUsername'),' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
                         }
 
                       }
