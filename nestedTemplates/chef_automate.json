@@ -64,6 +64,7 @@
     "imagePublisher": "OpenLogic",
     "imageOffer": "CentOS-HPC",
     "imageSku": "7.1",
+    "location" : "[resourceGroup().location]",
     "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
     "nicName": "[concat(uniquestring(parameters('vmName')), 'nic')]",
     "addressPrefix": "10.0.0.0/16",
@@ -75,8 +76,8 @@
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
     "Automate ExtensionScriptFolder": "CustomScripts",
     "Automate ExtensionScriptFileName": "Automate Extension.sh",
-    "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', resourceGroup().location,'.cloudapp.azure.com')]",
-    "fqdn-automate": "[concat(parameters('vmName'), '.', resourceGroup().location,'.cloudapp.azure.com')]"
+    "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]",
+    "fqdn-automate": "[concat(parameters('vmName'), '.', variables('location'),'.cloudapp.azure.com')]"
   },
   "resources": [
     {
