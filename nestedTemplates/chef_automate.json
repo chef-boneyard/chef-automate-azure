@@ -63,7 +63,7 @@
     "dataDisk2Name": "[concat(uniquestring(parameters('vmName')), 'datadisk2')]",
     "imagePublisher": "OpenLogic",
     "imageOffer": "CentOS-HPC",
-    "imageSku": "7.1",
+    "imageSku": "7.3",
     "location" : "[resourceGroup().location]",
     "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
     "nicName": "[concat(uniquestring(parameters('vmName')), 'nic')]",
