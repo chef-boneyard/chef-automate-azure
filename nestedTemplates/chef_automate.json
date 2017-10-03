@@ -62,7 +62,7 @@
     "dataDisk1Name": "[concat(uniquestring(parameters('vmName')), 'datadisk1')]",
     "dataDisk2Name": "[concat(uniquestring(parameters('vmName')), 'datadisk2')]",
     "imagePublisher": "OpenLogic",
-    "imageOffer": "CentOS-HPC",
+    "imageOffer": "CentOS",
     "imageSku": "7.3",
     "location" : "[resourceGroup().location]",
     "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
@@ -76,7 +76,7 @@
     "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
     "Automate ExtensionScriptFolder": "CustomScripts",
     "Automate ExtensionScriptFileName": "Automate Extension.sh",
-    "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', variables('location'),'.cloudapp.azure.com')]",
+    "fqdn-standalone": "[concat(parameters('domainNameLabel'), '.', variables('location'), '.cloudapp.azure.com')]",
     "fqdn-automate": "[concat(parameters('vmName'), '.', variables('location'),'.cloudapp.azure.com')]"
   },
   "resources": [
@@ -187,7 +187,7 @@
               "fileUris": [
                 "[concat(variables('baseUrl'),'nestedTemplates/chef_automate_install.sh')]"
               ],
-              "commandToExecute": "[concat('echo ', parameters('adminPassword'), ' | sudo -S sh chef_automate_install.sh',' ', variables('fqdn-standalone'), ' ', parameters('ORG_SHORT_NAME'),' ', variables('fqdn-automate'), ' ', parameters('ORG_LONG_NAME'),' ', parameters('KEY_DIR'),' ', parameters('sa_name'),' ', parameters('rg_name'), ' ', parameters('az_user'),' ', parameters('az_pass'),' ', parameters('az_tenant'))]"
+              "commandToExecute": "[concat('echo ', parameters('adminPassword'), ' | sudo -S sh chef_automate_install.sh',' ', variables('fqdn-standalone'), ' ', parameters('ORG_SHORT_NAME'),' ', variables('fqdn-automate'), ' ', parameters('ORG_LONG_NAME'),' ', parameters('KEY_DIR'), ' ', parameters('sa_name'),' ', parameters('rg_name'), ' ', parameters('az_user'),' ', parameters('az_pass'), ' ', parameters('az_tenant'))]"
             }
           }
         }

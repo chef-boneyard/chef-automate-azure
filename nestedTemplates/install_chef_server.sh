@@ -40,7 +40,7 @@ fi
 
 az storage share create --name files --quota 2048 --connection-string $current_env_conn_string
 
-sa_key=$(az storage account keys list --name $sa_name --resource-group $rg_name | jq '.[0] | .value')
+sa_key=$(az storage account keys list -g $rg_name -n $sa_name --query "[?keyName=='key1'] | [0].value" -o tsv)
 
 mkdir /chefmnt/keys
 
