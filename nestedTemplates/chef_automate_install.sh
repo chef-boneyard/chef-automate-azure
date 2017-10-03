@@ -22,7 +22,8 @@ az login --service-principal -u $az_spn_user -p $az_spn_sec --tenant $az_spn_ten
 
 sa_key=$(az storage account keys list -g $rg_name -n $sa_name --query "[?keyName=='key1'] | [0].value" -o tsv)
 
-mkdir /chefmnt
+mkdir /chefmnt/keys
+
 bash -c 'echo "//' + $sa_name + \
     '.file.core.windows.net/files /chefmnt cifs vers=3.0,username=' + $sa_name + \
     ',password=' + $sa_key + ',dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab'
