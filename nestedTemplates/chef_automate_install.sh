@@ -40,3 +40,5 @@ cd $KEY_DIR
 
 # install automate
 #automate-ctl setup --license $KEY_DIR/$AUTOMATE_LICENSE --key $KEY_DIR/delivery.pem --server-url https://$CHEF_SERVER_FQDN/organizations/$AUTOMATE_CHEF_ORG --fqdn $AUTOMATE_SERVER_FQDN --enterprise $ENTERPRISE_NAME --configure
+
+echo "Done"
