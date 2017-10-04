@@ -32,10 +32,11 @@ mount -a
 
 cd $KEY_DIR
 
-curl https://sdadevops.blob.core.windows.net/keys/delivery.license?st=2017-09-14T17%3A27%3A00Z&se=2017-09-15T17%3A27%3A00Z&sp=rl&sv=2016-05-31&sr=b&sig=5PFB3YqG4LsdhO8QK8ao7h9PAYJ9c9mTmVlRIcX1iXY%3D > delivery.license
+#commenting out chef specific commands, to validate ARM
+#curl https://sdadevops.blob.core.windows.net/keys/delivery.license?st=2017-09-14T17%3A27%3A00Z&se=2017-09-15T17%3A27%3A00Z&sp=rl&sv=2016-05-31&sr=b&sig=5PFB3YqG4LsdhO8QK8ao7h9PAYJ9c9mTmVlRIcX1iXY%3D > delivery.license
 
 # install rpm
-wget https://packages.chef.io/files/stable/automate/1.6.99/el/7/automate-1.6.99-1.el7.x86_64.rpm && rpm -Uvh automate-1.6.99-1.el7.x86_64.rpm
+#wget https://packages.chef.io/files/stable/automate/1.6.99/el/7/automate-1.6.99-1.el7.x86_64.rpm && rpm -Uvh automate-1.6.99-1.el7.x86_64.rpm
 
 # install automate
-automate-ctl setup --license $KEY_DIR/$AUTOMATE_LICENSE --key $KEY_DIR/delivery.pem --server-url https://$CHEF_SERVER_FQDN/organizations/$AUTOMATE_CHEF_ORG --fqdn $AUTOMATE_SERVER_FQDN --enterprise $ENTERPRISE_NAME --configure
+#automate-ctl setup --license $KEY_DIR/$AUTOMATE_LICENSE --key $KEY_DIR/delivery.pem --server-url https://$CHEF_SERVER_FQDN/organizations/$AUTOMATE_CHEF_ORG --fqdn $AUTOMATE_SERVER_FQDN --enterprise $ENTERPRISE_NAME --configure
