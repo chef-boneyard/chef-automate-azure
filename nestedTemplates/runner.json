@@ -210,12 +210,9 @@
                     },
                     {
                       "name": "RunnerScriptExtension",
-                      "type": "Microsoft.Compute/virtualMachines/extensions",
+                      "type": "extensions",
                       "location": "[resourceGroup().location]",
-                      "apiVersion": "2015-06-15",
-                      "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
-                      ],
+                      "apiVersion": "2016-03-30",
                       "properties": {
                         "publisher": "Microsoft.Azure.Extensions",
                         "type": "CustomScript",
