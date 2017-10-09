@@ -24,7 +24,7 @@
     "variables": {
         "deploymentApiVersion": "2015-01-01",
         "location": "[resourceGroup().location]",
-        "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/",
+        "baseUrl": "https://raw.githubusercontent.com/chef-customers/chef-automate-azure/master/",
         "runnerURL": "[concat(variables('baseUrl'),'nestedTemplates/runner.json')]",
         "standaloneURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_standalone.json')]",
         "automateURL": "[concat(variables('baseUrl'),'nestedTemplates/chef_automate.json')]",

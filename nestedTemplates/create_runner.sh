@@ -9,7 +9,7 @@ az_pass=$6
 az_tenant=$7
 runner_ip=$(hostname  -I | cut -f1 -d' ')
 ext_config='{
-    "fileUris": ["https://raw.githubusercontent.com/chef-customers/chef-automate-azure/OrchestrationTemplate/nestedTemplates/register_automate_runner.sh"],
+    "fileUris": ["https://raw.githubusercontent.com/chef-customers/chef-automate-azure/master/nestedTemplates/register_automate_runner.sh"],
     "commandToExecute": "./register_automate_runner.sh ' + $runner_password $runner_ip $runner_username + '"
 }'
 
